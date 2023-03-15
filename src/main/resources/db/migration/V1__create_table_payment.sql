@@ -1,0 +1,12 @@
+--CREATE TABLE tb_payment (
+--id BIGINT(20) NOT NULL AUTO_INCREMENT,
+--amount DECIMAL(19, 2) NOT NULL,
+--name VARCHAR(100) DEFAULT NULL,
+--card_number VARCHAR(19) DEFAULT NULL,
+--expiration VARCHAR(7) NOT NULL,
+--code VARCHAR(3) DEFAULT NULL,
+--status VARCHAR(255) NOT NULL,
+--order_id BIGINT(20) NOT NULL,
+--type_payment_id BIGINT(20) NOT NULL,
+--PRIMARY KEY (id)
+--);
