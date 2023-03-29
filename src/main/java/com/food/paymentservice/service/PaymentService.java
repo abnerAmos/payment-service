@@ -1,5 +1,6 @@
 package com.food.paymentservice.service;
 
+import com.food.paymentservice.client.OrderClient;
 import com.food.paymentservice.dto.PaymentDto;
 import com.food.paymentservice.enums.Status;
 import com.food.paymentservice.model.Payment;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 @Service
 public class PaymentService {
@@ -20,6 +22,9 @@ public class PaymentService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private OrderClient order;
 
     /* ModelMapper utiliza a classe de response para montar o Objeto de resposta,
      *  sem ter que dar set e get */
@@ -54,5 +59,17 @@ public class PaymentService {
 
     public void deletePayment(Long id) {
         paymentRepository.deleteById(id);
+    }
+
+    public void aprovePayment(Long id) {
+        Optional<Payment> payment = paymentRepository.findById(id);
+
+        if(!payment.isPresent()) {
+            throw new EntityNotFoundException();
+        }
+
+        payment.get().setStatus(Status.CONFIRMED);
+        paymentRepository.save(payment.get());
+        order.updatePayment(payment.get().getOrderId());
     }
 }
